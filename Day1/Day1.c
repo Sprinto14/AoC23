@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 int main() {
 
@@ -16,6 +17,9 @@ int main() {
 
     if (NULL == fp) {
         printf("File pointer not found.");
+
+        perror("fopen");
+
         fclose(fp);
         return -1;
     }
@@ -55,6 +59,6 @@ int main() {
 
     fclose(fp);
 
-    printf("Total: %d", total);
+    printf("\n\nTotal: %d", total);
 
 }

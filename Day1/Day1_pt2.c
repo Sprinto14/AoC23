@@ -102,7 +102,7 @@ int main() {
     if (NULL == fp) {
         printf("File pointer not found.");
         fclose(fp);
-        exit();
+        return -1;
     }
 
     printf("File opened!");
@@ -139,6 +139,6 @@ int main() {
 
     fclose(fp);
 
-    printf("Total: %d", total);
+    printf("\n\nTotal: %d", total);
 
 }
