@@ -25,14 +25,15 @@ int main() {
 
     printf("File opened!");
 
-    int maxAmounts[3] = {12, 13, 14};
+    
     char *colours[3] = {"red", "green", "blue"};
 
     int total = 0;
     char *str;
-    int n = 1;
 
     while(fgets(line, sizeof(line), fp)) {
+
+        int minAmounts[3] = {0, 0, 0};
 
         str = strtok(line, " ");
         printf("%s ", str);
@@ -49,21 +50,18 @@ int main() {
             
 
             for (int i = 0; i < 3; i++) {
-                //printf("%c ?= %c\n", str[0], colours[i][0]);
+
                 if (str[0] == colours[i][0]) {
-                    if (num > maxAmounts[i]) {
-                        printf("Invalid Game - %d %ss detected", num, colours[i]);
-                        validGame = false;
+
+                    if (num > minAmounts[i]) {
+
+                        minAmounts[i] = num;
                         break;
+
                     }
+
                     break;
                 }
-
-            }
-
-            if (!validGame) {
-
-                break;
 
             }
 
@@ -71,18 +69,14 @@ int main() {
 
         }
 
-        if (validGame) {
-
-            printf("Valid Game %d\n", n);
-            total += n;
-
-        } else {
-
-            printf("\n");
-
+        int temp = 1;
+        for (int i = 0; i < 3; i++) {
+            temp *= minAmounts[i];
+            printf("%d %ss, ", minAmounts[i], colours[i]);
         }
+        printf("\n");
 
-        n++;
+        total += temp;
 
     }
 
