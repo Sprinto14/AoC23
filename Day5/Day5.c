@@ -21,7 +21,8 @@ unsigned long int numStrToArr(char *str, char *delimiter, unsigned long int *des
 
     // Compile remainder into array
     while(numStr != NULL) {
-        dest[n++] = atoi(numStr);
+        char *_; // stroul needs a pointer it can set to the end of the string, but I'm not using this
+        dest[n++] = strtoul(numStr, &_, 10);
         numStr = strtok(NULL, delimiter);
     }
 
@@ -179,15 +180,16 @@ unsigned long int part1(char *fileName) {
         unsigned long int destVals[MAXMAPPINGS], lowerVals[MAXMAPPINGS], upperVals[MAXMAPPINGS];
         int numMappings = parseMappings(fp, destVals, lowerVals, upperVals);
 
+        destVals[1] += 1;
+
         remapArr(arr, arrLen, destVals, lowerVals, upperVals, numMappings);
 
-        /*
+        
         // Debug print arr at end of each section of mapping
         printf("\n");
         printIntArr(arr, 0, arrLen);
         printf("\n");
-        */
-
+        
     }
 
 
@@ -219,14 +221,19 @@ unsigned long int part2(char *fileName) {
 
     //printf("iArr : ");
     //printIntArr(inputArr, 0, inputArrLen);
+
+    // Parse all of the mappings and save them into an array
+
     
-    unsigned long int arrLen = 0;
+    // Run through the input seeds in batches of MAXNUMSEEDS to find the min location
+    unsigned long int arrLen = 0, min = ULONG_MAX;
     for(int i = 0; i < inputArrLen; i += 2) {
 
         unsigned long int upperBound = inputArr[i] + inputArr[i + 1];
         for (int j = inputArr[i]; j < upperBound; j++) {
             arr[arrLen++] = j;
 
+            //When we hit the limit on the number of seeds, run the part1 algorithm on that batch, and save the minimum location
             if (arrLen >= MAXNUMSEEDS) {
                 printf("Out of memory :(");
                 exit(-2);
